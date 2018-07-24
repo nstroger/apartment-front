@@ -1,0 +1,134 @@
+<div class="p-24">
+
+  <h1>Apartments</h1>
+
+  <div class="mat-elevation-z8">
+    <apartments-toolbar
+      [filter]="filter"
+      [view]="view"
+      (filterChange)="updateFilter($event)"
+      (viewChange)="changeView($event)"></apartments-toolbar>
+
+    <div *ngIf="view==='list'">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="size">
+          <th mat-header-cell *matHeaderCellDef> Size(Sq Ft) </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.size}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Price($/month) </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rooms">
+          <th mat-header-cell *matHeaderCellDef> Number of Rooms </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.rooms}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="latitude">
+          <th mat-header-cell *matHeaderCellDef> Latitude </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.latitude}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="longitude">
+          <th mat-header-cell *matHeaderCellDef> Longitude </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.longitude}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="realtor">
+          <th mat-header-cell *matHeaderCellDef> Realtor </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.realtor}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="created">
+          <th mat-header-cell *matHeaderCellDef> Date Created </th>
+          <td mat-cell *matCellDef="let apartment"> {{apartment.created | date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let apartment">
+            {{apartment.status}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell class="w-40" *matHeaderCellDef> Actions </th>
+          <td mat-cell class="w-40" *matCellDef="let apartment" (click)="$event.stopPropagation()">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>settings</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="delete(apartment._id)">
+                <mat-icon>delete</mat-icon> Remove
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="apartment-row" *matRowDef="let row; columns: displayedColumns;"
+            [routerLink]="[row._id]"></tr>
+      </table>
+
+      <div class="empty-list" *ngIf="dataSource.data.length === 0">
+        There isn't any apartment.
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    </div>
+
+    <div *ngIf="view==='map'">
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeControl]="true">
+        <agm-marker [latitude]="apartment.latitude" [longitude]="apartment.longitude" (markerClick)="openInfo(apartment)"
+                    *ngFor="let apartment of list">
+          <agm-info-window>
+            <div class="apartment-infos" [routerLink]="['/apartments', apartment._id]">
+              <h3>{{ apartment.name }}</h3>
+              <div class="info">
+                <span>Address: </span>
+                <span>{{ apartment.address }}</span>
+              </div>
+              <div class="info">
+                <span>Size: </span>
+                <span>{{ apartment.floorAreaSize }}</span>
+              </div>
+              <div class="info">
+                <span>Price: </span>
+                <span>${{ apartment.pricePerMonth }}/month</span>
+              </div>
+              <div class="info">
+                <span>Rooms: </span>
+                <span>{{ apartment.numberOfRooms }}</span>
+              </div>
+              <div class="info">
+                <span>Realtor: </span>
+                <span>{{ apartment.realtor ? apartment.realtor.firstname + ' ' + apartment.realtor.lastname : '' }}</span>
+              </div>
+              <div class="info">
+                <span>Created: </span>
+                <span>{{ apartment.created | date }}</span>
+              </div>
+              <div class="info">
+                <span>Status: </span>
+                <span>{{ apartment.status | uppercase }}</span>
+              </div>
+
+              <div class="info">
+                <span>Description: </span><br/><br/>
+                <span>{{ apartment.description }}</span>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

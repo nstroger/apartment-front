@@ -1,0 +1,94 @@
+<div class="p-24">
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a mat-icon-button routerLink="/users"><mat-icon>arrow_back</mat-icon></a>
+
+    <h1 class="mr-8">{{ title }}</h1>
+  </div>
+
+  <div class="mat-elevation-z8 p-24" fxLayout="column" [formGroup]="form">
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex>
+        <mat-form-field>
+          <input matInput placeholder="First name" formControlName="firstname" required/>
+        </mat-form-field>
+        <app-error [form]="form" field="firstname" label="First name">
+        </app-error>
+      </div>
+
+      <div fxFlex>
+        <mat-form-field>
+          <input matInput placeholder="Last name" formControlName="lastname" required/>
+        </mat-form-field>
+        <app-error [form]="form" field="lastname" label="Last name">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex>
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" required/>
+        </mat-form-field>
+        <app-error [form]="form" field="email" label="Email">
+        </app-error>
+      </div>
+
+      <div fxFlex>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password" [required]="action === 'new'"/>
+        </mat-form-field>
+        <app-error [form]="form" field="password" label="Password">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex>
+        <mat-form-field>
+          <mat-select placeholder="Role" formControlName="role">
+            <mat-option value="realtor">Realtor</mat-option>
+            <mat-option value="client">Client</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex>
+        <mat-form-field>
+          <mat-select placeholder="Verified" formControlName="verified">
+            <mat-option [value]="true">Yes</mat-option>
+            <mat-option [value]="false">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div *ngIf="edit">
+      <button class="mr-8" mat-raised-button color="primary"
+              [disabled]="form.invalid" (click)="create()"
+              *ngIf="action==='new'">
+        <mat-icon>add</mat-icon> Create
+      </button>
+
+      <button class="mr-8" mat-raised-button color="primary"
+              [disabled]="form.invalid" (click)="update()"
+              *ngIf="action==='edit'">
+        <mat-icon>save</mat-icon> Save
+      </button>
+
+      <a mat-raised-button color="accent"
+         routerLink="/users">
+        <mat-icon>cancel</mat-icon> Cancel
+      </a>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="full-page">
+
+  <div class="h-100-p" fxLayout="column" fxLayoutAlign="center center">
+    <div class="login-form">
+      <h1>Sign In</h1>
+      <form  [formGroup]="loginForm" (submit)="login()">
+        <mat-card>
+
+          <mat-form-field class="w-100-p">
+            <input matInput formControlName="email" placeholder="Email" required>
+          </mat-form-field>
+          <app-error [form]="loginForm" field="email" label="Email">
+          </app-error>
+
+          <mat-form-field class="w-100-p">
+            <input matInput type="password" formControlName="password" placeholder="password" required>
+          </mat-form-field>
+          <app-error [form]="loginForm" field="password" label="Password">
+          </app-error>
+
+          <button mat-raised-button class="w-100-p mt-20" color="primary" [disabled]="!loginForm.valid">
+            Login
+          </button>
+
+        </mat-card>
+
+      </form>
+
+      <p>
+        Don't have an account? Please sign up <a routerLink="/register">here</a>!
+      </p>
+    </div>
+  </div>
+
+</div>

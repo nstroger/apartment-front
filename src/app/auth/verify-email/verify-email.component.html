@@ -1,0 +1,35 @@
+<div fxLayout="column">
+  <mat-toolbar color="primary" fxFlex="none"
+               fxLayout="row" fxLayoutAlign="end center">
+    <div>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="login()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Log in</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <h1>Welcome!</h1>
+
+  <h3>Please check your email and activate your account.</h3>
+
+  <p> If you haven't received email, please send email here</p>
+
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <div class="email" fxLayout="column" fxFlex="none">
+      <mat-form-field class="mr-8">
+        <input type="email" matInput [formControl]="email">
+      </mat-form-field>
+      <ng-container *ngIf="email.touched && email.errors">
+        <mat-error *ngIf="email.errors.required">Email is required</mat-error>
+        <mat-error *ngIf="email.errors.email">Email is invalid</mat-error>
+      </ng-container>
+    </div>
+    <button class="mt-12" mat-raised-button color="primary" (click)="resend()">Resend</button>
+  </div>
+</div>

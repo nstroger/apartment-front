@@ -1,0 +1,119 @@
+<div class="toolbar-bar">
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <div fxLayout="row wrap" fxLayoutAlignCenter="start center">
+      <span class="filter-label"
+            *ngIf="filter.sizeOp || filter.priceOp || filter.roomsOp">Filter by:</span>
+
+      <mat-chip-list *ngIf="filter.sizeOp || filter.priceOp || filter.roomsOp">
+        <mat-chip removable
+                  (removed)="remove('size')"
+                  *ngIf="filter.sizeOp">
+          <span>{{ 'Size ' + symbols[filter.sizeOp] + ' ' + filter.sizeVal }}</span>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <mat-chip removable
+                  (removed)="remove('price')"
+                  *ngIf="filter.priceOp">
+          <span>{{ 'Price ' + symbols[filter.priceOp] + ' ' + filter.priceVal }}</span>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <mat-chip removable
+                  (removed)="remove('rooms')"
+                  *ngIf="filter.roomsOp">
+          <span>{{ 'Rooms ' + symbols[filter.roomsOp] + ' ' + filter.roomsVal }}</span>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+
+      <button mat-raised-button color="primary"
+              class="mr-8" (click)="toggleFilter()">
+        <mat-icon>tune</mat-icon> Filter
+      </button>
+
+      <a mat-raised-button color="primary"
+         class="mr-8" routerLink="/apartments/new"
+         *ngIf="isRealtor">
+        <mat-icon>add</mat-icon> Add
+      </a>
+    </div>
+
+    <mat-button-toggle-group [value]="view" (change)="changeView($event)">
+      <mat-button-toggle value="list">
+        <mat-icon>list</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="map">
+        <mat-icon>map</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+  </div>
+
+  <form [formGroup]="form" (submit)="updateFilter($event)" *ngIf="filterVisible">
+    <mat-card class="mt-20" fxLayout="row wrap">
+
+      <div class="mr-40" fxLayout="row" fxLayoutAlign="start center">
+        <label class="mr-20">Size: </label>
+
+        <mat-form-field class="w-110 mr-20">
+          <mat-select formControlName="sizeOp">
+            <mat-option *ngFor="let op of ops" [value]="op.val">{{ op.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-60" *ngIf="form.value.sizeOp">
+          <input matInput formControlName="sizeVal">
+        </mat-form-field>
+      </div>
+
+      <div class="mr-40" fxLayout="row" fxLayoutAlign="start center">
+        <label class="mr-20">Price: </label>
+
+        <mat-form-field class="w-110 mr-20">
+          <mat-select formControlName="priceOp">
+            <mat-option *ngFor="let op of ops" [value]="op.val">{{ op.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-60" *ngIf="form.value.priceOp">
+          <input matInput formControlName="priceVal">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <label class="mr-20">Rooms: </label>
+
+        <mat-form-field class="w-110 mr-20">
+          <mat-select formControlName="roomsOp">
+            <mat-option *ngFor="let op of ops" [value]="op.val">{{ op.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-60" *ngIf="form.value.roomsOp">
+          <input matInput formControlName="roomsVal">
+        </mat-form-field>
+      </div>
+
+      <div class="error" fxFlex="100" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <div fxFlex="100">
+
+        <button type="submit" class="mr-8"
+                mat-raised-button color="primary"
+                [disabled]="form.invalid">
+          <mat-icon>save</mat-icon> Update
+        </button>
+
+        <button mat-raised-button color="accent" (click)="toggleFilter()">
+          <mat-icon>cancel</mat-icon> Cancel
+        </button>
+
+      </div>
+
+    </mat-card>
+  </form>
+
+</div>

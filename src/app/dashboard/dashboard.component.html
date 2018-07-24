@@ -1,0 +1,44 @@
+<div class="full-page" fxLayout="column">
+  <mat-toolbar color="primary" fxFlex="none"
+               fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-icon-button class="mr-20" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a class="logo-text" routerLink="/apartments">Apartment Rentals</a>
+    </div>
+    <div>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <span class="username">{{ username }}</span>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="goto('/profile')">
+          <mat-icon>account_circle</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="goto('/password-change')">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Sign out</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <mat-drawer-container fxFlex>
+    <mat-drawer #drawer mode="side">
+      <mat-nav-list>
+        <a mat-list-item (click)="goto('/apartments')">Apartments</a>
+        <a mat-list-item (click)="goto('/users')" *ngIf="isAdmin">Users</a>
+      </mat-nav-list>
+    </mat-drawer>
+
+    <router-outlet></router-outlet>
+
+  </mat-drawer-container>
+
+</div>

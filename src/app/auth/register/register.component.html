@@ -1,0 +1,53 @@
+<div class="full-page">
+
+  <div class="h-100-p" fxLayout="column" fxLayoutAlign="center center">
+    <div class="register-form">
+      <h1>Sign Up</h1>
+      <form [formGroup]="registerForm" (submit)="register()">
+        <mat-card>
+
+          <mat-form-field class="w-100-p">
+            <input matInput formControlName="firstname" placeholder="First Name" required>
+          </mat-form-field>
+          <app-error [form]="registerForm" field="firstname" label="First Name">
+          </app-error>
+
+          <mat-form-field class="w-100-p">
+            <input matInput formControlName="lastname" placeholder="Last Name" required>
+          </mat-form-field>
+          <app-error [form]="registerForm" field="lastname" label="Last Name">
+          </app-error>
+
+          <mat-form-field class="w-100-p">
+            <input matInput formControlName="email" placeholder="Email" required>
+          </mat-form-field>
+          <app-error [form]="registerForm" field="email" label="Email">
+          </app-error>
+
+          <mat-form-field class="w-100-p">
+            <input matInput type="password" formControlName="password" placeholder="Password" required>
+          </mat-form-field>
+          <app-error [form]="registerForm" field="password" label="Password">
+          </app-error>
+
+          <mat-form-field class="w-100-p">
+            <input matInput type="password" formControlName="confirmPassword" placeholder="Confirm Password" required>
+          </mat-form-field>
+          <app-error [form]="registerForm" field="confirmPassword" label="Confirm Password">
+          </app-error>
+
+          <button mat-raised-button class="w-100-p mt-20" color="primary" [disabled]="!registerForm.valid">
+            Register
+          </button>
+
+        </mat-card>
+      </form>
+
+      <p>
+        Already have an account? Please sign in <a routerLink="/login">here</a>!
+      </p>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+@import '../../variable';
+
+.full-page {
+  width: 100vw;
+  height: 100vh;
+}
+
+.mat-drawer {
+  width: 200px;
+  background-color: $sidebar-bg;
+  color: $sidebar-fg;
+}
+
+.mat-toolbar a {
+  text-decoration: none;
+  color: white;
+}
+
+.logo-text {
+  line-height: 40px;
+  vertical-align: middle;
+}
+
+.username {
+  font-weight: normal;
+  vertical-align: middle;
+  font-size: 16px;
+  margin-right: 8px;
+}

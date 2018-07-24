@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  text-align: center;
+
+  .link {
+    color: blue;
+    cursor: pointer;
+  }
+
+  .email {
+    width: 240px;
+  }
+
+  .mt-12 {
+    margin-top: 12px;
+  }
+}

@@ -1,0 +1,40 @@
+.mat-table {
+  width: 100%;
+
+  tr {
+    position: relative;
+    cursor: pointer;
+  }
+}
+
+.w-40 {
+  width: 40px;
+}
+
+agm-map {
+  height: 60vh;
+}
+
+agm-info-window {
+  cursor: pointer;
+}
+
+.apartment-infos {
+  cursor: pointer;
+  outline: none;
+  position: relative;
+
+  .info {
+    margin-bottom: 8px;
+
+    span:first-child {
+      display: inline-block;
+      width: 80px;
+    }
+
+    span:last-child {
+      font-weight: 600;
+    }
+  }
+
+}

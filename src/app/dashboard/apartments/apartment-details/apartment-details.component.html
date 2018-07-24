@@ -1,0 +1,217 @@
+<div class="p-24">
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a mat-icon-button routerLink="/apartments"><mat-icon>arrow_back</mat-icon></a>
+
+    <h1 class="mr-8">{{ title }}</h1>
+  </div>
+
+  <div class="mat-elevation-z8 p-24" fxLayout="column" [formGroup]="form">
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field>
+          <input matInput placeholder="Name" formControlName="name" required/>
+        </mat-form-field>
+        <app-error [form]="form" field="name" label="Name">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex>
+          <input matInput type="text" placeholder="Address" autocorrect="off" spellcheck="off" #autoSearch formControlName="address" required />
+        </mat-form-field>
+        <app-error [form]="form" field="address" label="Address">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex>
+          <input matInput
+                 formControlName="latitude"
+                 placeholder="Latitude"
+                 (blur)="changeAddress('latitude')"
+                 required/>
+        </mat-form-field>
+        <app-error [form]="form" field="latitude" label="Latitude">
+        </app-error>
+      </div>
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex>
+          <input matInput
+                 formControlName="longitude"
+                 placeholder="Longitude"
+                 (blur)="changeAddress('longitude')"
+                 required/>
+        </mat-form-field>
+        <app-error [form]="form" field="longitude" label="Longitude">
+        </app-error>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex>
+          <input matInput
+                 formControlName="floorAreaSize"
+                 placeholder="Floor Area Size (Sq Ft)"
+                 required/>
+        </mat-form-field>
+        <app-error [form]="form" field="floorAreaSize" label="Floor area size">
+        </app-error>
+      </div>
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex class="price">
+          <input matInput
+                 formControlName="pricePerMonth"
+                 placeholder="Price Per Month ($/month)"
+                 required/>
+        </mat-form-field>
+        <app-error [form]="form" field="pricePerMonth" label="Price per month">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field fxFlex>
+          <input matInput
+                 formControlName="numberOfRooms"
+                 placeholder="Number of Rooms"
+                 required/>
+        </mat-form-field>
+        <app-error [form]="form" field="numberOfRooms" label="Number of rooms">
+        </app-error>
+      </div>
+
+      <div fxFlex fxLayout="column" *ngIf="role === 'admin'">
+        <mat-form-field fxFlex fxLayout="column">
+          <mat-select placeholder="Realtor" formControlName="realtor">
+            <mat-option *ngFor="let realtor of realtors" [value]="realtor">
+              {{realtor.firstname + ' ' + realtor.lastname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-error [form]="form" field="realtor" label="Realtor">
+        </app-error>
+      </div>
+
+      <div fxFlex fxLayout="column" *ngIf="role !== 'admin'">
+        <mat-form-field>
+          <mat-select placeholder="Status" formControlName="status" required>
+            <mat-option value="Available">Available</mat-option>
+            <mat-option value="Rented">Rented</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-error [form]="form" field="status" label="Status">
+        </app-error>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px" *ngIf="role==='admin'">
+
+      <div fxFlex fxLayout="column">
+        <mat-form-field>
+          <mat-select placeholder="Status" formControlName="status" required>
+            <mat-option value="Available">Available</mat-option>
+            <mat-option value="Rented">Rented</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-error [form]="form" field="status" label="Status">
+        </app-error>
+      </div>
+
+      <div fxFlex></div>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="16px">
+
+      <mat-form-field fxFlex>
+        <textarea matInput placeholder="description"
+                  formControlName="description"
+                  placeholder="Description" rows="4"
+                 ></textarea>
+      </mat-form-field>
+
+    </div>
+
+    <div *ngIf="edit">
+      <button class="mr-8" mat-raised-button color="primary"
+              [disabled]="form.invalid" (click)="create()"
+              *ngIf="action==='new'">
+        <mat-icon>add</mat-icon> Create
+      </button>
+
+      <button class="mr-8" mat-raised-button color="primary"
+              [disabled]="form.invalid" (click)="update()"
+              *ngIf="action==='edit'">
+        <mat-icon>save</mat-icon> Save
+      </button>
+
+      <a mat-raised-button color="accent"
+         routerLink="/apartments">
+        <mat-icon>cancel</mat-icon> Cancel
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="mt-20 mat-elevation-z8">
+
+    <agm-map [latitude]="form.get('latitude').value"
+             [longitude]="form.get('longitude').value"
+             [zoom]="16"
+             [mapTypeControl]="true"
+             [streetViewControl]="false"
+             [zoomControl]="false"
+             (mapClick)="mapClick($event)">
+      <agm-marker [latitude]="form.get('latitude').value" [longitude]="form.get('longitude').value">
+        <agm-info-window>
+          <div class="location-info">
+            <div class="info">
+              <span>Address: </span>
+              <span>{{ form.get('address').value }}</span>
+            </div>
+            <div class="info">
+              <span>Location: </span>
+              <span>{{ form.get('latitude').value + ', ' + form.get('longitude').value }}</span>
+            </div>
+          </div>
+        </agm-info-window>
+      </agm-marker>
+      <agm-marker iconUrl="assets/marker.png" [latitude]="clicked.lat" [longitude]="clicked.lng" *ngIf="clicked">
+        <agm-info-window [isOpen]="true">
+          <div class="location-info">
+            <div class="info">
+              <span>Address: </span>
+              <span>{{ clicked.address }}</span>
+            </div>
+            <div class="info">
+              <span>Location: </span>
+              <span>{{ clicked.lat + ', ' + clicked.lng }}</span>
+            </div>
+            <div class="link" (click)="useAddress()">Use this address</div>
+          </div>
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>
+  </div>
+
+</div>

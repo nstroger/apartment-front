@@ -1,0 +1,58 @@
+<div class="p-24">
+
+  <h1>Users</h1>
+
+  <div class="mat-elevation-z8">
+    <div class="toolbar">
+      <a mat-raised-button color="primary" routerLink="/users/new">Add</a>
+    </div>
+
+    <table mat-table matSort [dataSource]="dataSource">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+        <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="verified">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Verified </th>
+        <td mat-cell *matCellDef="let user"> {{user.verified ? 'Yes' : 'No'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell class="w-40" *matHeaderCellDef> Actions </th>
+        <td mat-cell class="w-40" *matCellDef="let user" (click)="$event.stopPropagation()">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="delete(user._id)">
+              <mat-icon>delete</mat-icon> Remove
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row class="user-row" *matRowDef="let row; columns: displayedColumns;"
+          [routerLink]="[row._id]"></tr>
+    </table>
+
+    <div class="empty-list" *ngIf="dataSource.data.length === 0">
+      There isn't any user.
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+
+  </div>
+</div>

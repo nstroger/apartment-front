@@ -1,0 +1,22 @@
+
+.toolbar-bar {
+  padding: 24px 16px;
+
+  .mat-form-field {
+    margin-right: 8px;
+  }
+
+  .filter-label {
+    line-height: 36px;
+    margin-right: 16px;
+  }
+
+  .mat-chip-list {
+    margin-right: 16px;
+  }
+
+  .error {
+    margin-bottom: 16px;
+    color: red;
+  }
+}
